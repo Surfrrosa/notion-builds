@@ -3,28 +3,26 @@ import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, ri
 import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
-const ASSET_BASE_URL = "https://raw.githubusercontent.com/Surfrrosa/notion-builds/main/assets";
-
 const ICONS = {
-  home: `${ASSET_BASE_URL}/icons/home.png`,
-  inbox: `${ASSET_BASE_URL}/icons/inbox.png`,
-  tasks: `${ASSET_BASE_URL}/icons/tasks.png`,
-  projects: `${ASSET_BASE_URL}/icons/projects.png`,
-  notes: `${ASSET_BASE_URL}/icons/notes.png`,
-  assets: `${ASSET_BASE_URL}/icons/assets.png`,
-  people: `${ASSET_BASE_URL}/icons/people.png`,
-  writing: `${ASSET_BASE_URL}/icons/writing.png`,
-  editing: `${ASSET_BASE_URL}/icons/editing.png`,
-  admin: `${ASSET_BASE_URL}/icons/admin.png`,
-  review: `${ASSET_BASE_URL}/icons/review.png`,
+  home: "https://www.notion.so/icons/home_gray.svg",
+  inbox: "https://www.notion.so/icons/inbox_gray.svg", 
+  tasks: "https://www.notion.so/icons/checkmark_gray.svg",
+  projects: "https://www.notion.so/icons/folder_gray.svg",
+  notes: "https://www.notion.so/icons/document_gray.svg",
+  assets: "https://www.notion.so/icons/image_gray.svg",
+  people: "https://www.notion.so/icons/person_gray.svg",
+  writing: "https://www.notion.so/icons/pencil_gray.svg",
+  editing: "https://www.notion.so/icons/edit_gray.svg",
+  admin: "https://www.notion.so/icons/settings_gray.svg",
+  review: "https://www.notion.so/icons/eye_gray.svg",
 };
 
 const COVERS = [
-  `${ASSET_BASE_URL}/covers/gradient-dark-01.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-02.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-03.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-04.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-05.png`,
+  "https://www.notion.so/images/page-cover/gradients_11.jpg",
+  "https://www.notion.so/images/page-cover/gradients_3.jpg",
+  "https://www.notion.so/images/page-cover/gradients_8.jpg",
+  "https://www.notion.so/images/page-cover/solid_black.png",
+  "https://www.notion.so/images/page-cover/gradients_1.jpg",
 ];
 
 async function createScaffoldPages(parentPageId: string) {

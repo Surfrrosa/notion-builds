@@ -12,6 +12,7 @@
     "seed:night-desk": "tsx scripts/seed-night-desk.ts",
     "validate:night-desk": "tsx scripts/validate-night-desk.ts",
     "review:cap": "tsx scripts/review-cap.ts --apply",
+    "dedupe:night-desk": "tsx scripts/dedupe-night-desk.ts",
     "clear:demo": "tsx scripts/clear-demo.ts",
     "docs:pdf": "md-to-pdf docs/quick-start.md && md-to-pdf docs/neuro-guide.md",
     "dev": "tsx --watch"
