@@ -1,0 +1,11 @@
+{
+  "name": "Night Desk",
+  "databases": [
+    { "name": "Inbox" },
+    { "name": "Tasks" },
+    { "name": "Projects" },
+    { "name": "Notes" },
+    { "name": "Assets" },
+    { "name": "People" }
+  ]
+}

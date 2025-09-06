@@ -1,0 +1,27 @@
+{
+  "name": "notion-builds",
+  "version": "1.0.0",
+  "description": "Programmatically create Notion databases and scaffold pages for templates",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "templates/*"
+  ],
+  "scripts": {
+    "build:night-desk": "tsx templates/night-desk/create.ts",
+    "seed:night-desk": "tsx scripts/seed-night-desk.ts",
+    "dev": "tsx --watch"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
