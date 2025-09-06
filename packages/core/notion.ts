@@ -1,7 +1,10 @@
 import 'dotenv/config';
 import { Client } from "@notionhq/client";
 
-export const notion = new Client({ auth: process.env.NOTION_TOKEN });
+export const notion = new Client({
+  auth: process.env.NOTION_TOKEN!,
+  notionVersion: process.env.NOTION_VERSION || "2022-06-28",
+});
 
 export function requireEnv(name: string): string {
   const v = process.env[name];
