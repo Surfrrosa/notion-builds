@@ -32,7 +32,8 @@ async function seedNightDesk() {
       "Goal": { rich_text: [{ type: "text", text: { content: "Launch the Night Desk template with full functionality" } }] },
       "Status": { select: { name: "Active" } },
       "Scene Default": { select: { name: "Writing" } },
-      "Pinned": { checkbox: true }
+      "Pinned": { checkbox: true },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -42,7 +43,8 @@ async function seedNightDesk() {
       "Name": { title: [{ type: "text", text: { content: "YouTube Pipeline" } }] },
       "Goal": { rich_text: [{ type: "text", text: { content: "Streamline video content creation workflow" } }] },
       "Status": { select: { name: "Active" } },
-      "Scene Default": { select: { name: "Editing" } }
+      "Scene Default": { select: { name: "Editing" } },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -52,7 +54,8 @@ async function seedNightDesk() {
       "Name": { title: [{ type: "text", text: { content: "Admin Cleanup" } }] },
       "Goal": { rich_text: [{ type: "text", text: { content: "Organize and clean up administrative tasks" } }] },
       "Status": { select: { name: "On Hold" } },
-      "Scene Default": { select: { name: "Admin" } }
+      "Scene Default": { select: { name: "Admin" } },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -64,7 +67,8 @@ async function seedNightDesk() {
       "Role": { select: { name: "Body-Double" } },
       "Email": { email: "alex@example.com" },
       "Notes": { rich_text: [{ type: "text", text: { content: "Available weekday mornings for co-working sessions" } }] },
-      "Projects": { relation: [{ id: (project1 as any).id }] }
+      "Projects": { relation: [{ id: (project1 as any).id }] },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -80,7 +84,8 @@ async function seedNightDesk() {
       "Timebox (min)": { number: 25 },
       "If": { rich_text: [{ type: "text", text: { content: "I sit down to write" } }] },
       "Then": { rich_text: [{ type: "text", text: { content: "I'll draft the quick start guide" } }] },
-      "At": { rich_text: [{ type: "text", text: { content: "my writing desk with coffee" } }] }
+      "At": { rich_text: [{ type: "text", text: { content: "my writing desk with coffee" } }] },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -91,7 +96,8 @@ async function seedNightDesk() {
       "Project": { relation: [{ id: (project1 as any).id }] },
       "Status": { select: { name: "Next" } },
       "Priority": { select: { name: "Med" } },
-      "Scene": { select: { name: "Editing" } }
+      "Scene": { select: { name: "Editing" } },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -102,7 +108,8 @@ async function seedNightDesk() {
       "Project": { relation: [{ id: (project1 as any).id }] },
       "Status": { select: { name: "Next" } },
       "Priority": { select: { name: "Med" } },
-      "Scene": { select: { name: "Admin" } }
+      "Scene": { select: { name: "Admin" } },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -114,7 +121,8 @@ async function seedNightDesk() {
       "Project": { relation: [{ id: (project1 as any).id }] },
       "Type": { select: { name: "Draft" } },
       "Excerpt": { rich_text: [{ type: "text", text: { content: "ADHD-friendly productivity system outline with focus on gentle resurfacing" } }] },
-      "Tags": { multi_select: [{ name: "ADHD" }, { name: "productivity" }] }
+      "Tags": { multi_select: [{ name: "ADHD" }, { name: "productivity" }] },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -127,7 +135,8 @@ async function seedNightDesk() {
       "Project": { relation: [{ id: (project1 as any).id }] },
       "Source URL": { url: "https://example.com/mockup.png" },
       "Pinned": { checkbox: true },
-      "Tags": { multi_select: [{ name: "design" }, { name: "dark-theme" }] }
+      "Tags": { multi_select: [{ name: "design" }, { name: "dark-theme" }] },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -138,7 +147,30 @@ async function seedNightDesk() {
       "Type": { select: { name: "B-roll" } },
       "Project": { relation: [{ id: (project2 as any).id }] },
       "Source URL": { url: "https://example.com/broll.mp4" },
-      "Tags": { multi_select: [{ name: "video" }, { name: "demo" }] }
+      "Tags": { multi_select: [{ name: "video" }, { name: "demo" }] },
+      "Demo": { checkbox: true }
+    }
+  });
+
+  const inboxDbId = state.databases["Inbox"];
+  await notion.pages.create({
+    parent: { database_id: inboxDbId },
+    properties: {
+      "Name": { title: [{ type: "text", text: { content: "Research ADHD productivity methods" } }] },
+      "Type": { select: { name: "Idea" } },
+      "Next Tiny Step": { rich_text: [{ type: "text", text: { content: "Find 3 research papers on ADHD and productivity" } }] },
+      "Project": { relation: [{ id: (project1 as any).id }] },
+      "Demo": { checkbox: true }
+    }
+  });
+
+  await notion.pages.create({
+    parent: { database_id: inboxDbId },
+    properties: {
+      "Name": { title: [{ type: "text", text: { content: "Update social media bio" } }] },
+      "Type": { select: { name: "Task" } },
+      "Next Tiny Step": { rich_text: [{ type: "text", text: { content: "Draft new bio mentioning Night Desk template" } }] },
+      "Demo": { checkbox: true }
     }
   });
 
@@ -151,6 +183,7 @@ async function seedNightDesk() {
   console.log("- 3 Tasks linked to ND Launch project");
   console.log("- 1 Draft note with tags");
   console.log("- 2 Assets with different types");
+  console.log("- 2 Inbox items for capture workflow demo");
   console.log("\nAll relations are properly linked between databases.");
 }
 
