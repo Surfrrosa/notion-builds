@@ -15,6 +15,54 @@ async function createScaffoldPages(parentPageId: string) {
     return state.pages;
   }
 
+  const templateRoot = await notion.pages.create({
+    parent: { type: "page_id", page_id: parentPageId },
+    icon: { type: "emoji", emoji: "🌙" },
+    properties: { title: [{ type: "text", text: { content: "Night Desk — Template Root" } }] }
+  });
+
+  await notion.blocks.children.append({
+    block_id: (templateRoot as any).id,
+    children: [
+      { object: "block", heading_1: { rich_text: [{ type: "text", text: { content: "🌙 Night Desk" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "The ADHD-friendly Notion workspace that works with your brain, not against it." } }] } },
+      { object: "block", divider: {} },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "🚀 Quick Navigation" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Essential pages for your daily workflow:" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🌚 Home — Today (your daily dashboard)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "✍️ Writing Scene (focused writing environment)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🎬 Editing Scene (media and revision workspace)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "⚙️ Admin Scene (maintenance and project management)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🔄 Review (gentle resurfacing workflows)" } }] } },
+      { object: "block", heading_3: { rich_text: [{ type: "text", text: { content: "📊 Databases" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📥 Inbox (universal capture point)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "✅ Tasks (action items with GTD contexts)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📁 Projects (goal tracking with progress rollups)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🗒️ Notes (ideas, references, and drafts)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🗃️ Assets (visual shelf for files and media)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "👥 People (collaborators and body-doubling partners)" } }] } },
+      { object: "block", divider: {} },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "📚 Start Here" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Get up and running in 5 minutes with our comprehensive guides:" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📖 Quick Start Guide (PDF) - Visual setup walkthrough" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🧠 Neuro Guide (PDF) - ADHD-friendly design principles" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "💡 Pro tip: Start by capturing everything in your Inbox, then use the Promote buttons to organize items into their proper databases." } }] } },
+      { object: "block", divider: {} },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "🧹 Demo Data" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "This template includes demo content to help you understand the workflow. Each database has:" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📋 Demo Data view - See all example content" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🗑️ Archive Demo button - Hide demo items when you're ready" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "When you're comfortable with the system, use the Archive Demo buttons to clean up and start fresh!" } }] } },
+      { object: "block", divider: {} },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "💬 Support & Updates" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Questions? Need help customizing your workspace?" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📧 Email: support@nightdesk.template" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🔗 Updates: Check back for new features and improvements" } }] } },
+      { object: "block", heading_3: { rich_text: [{ type: "text", text: { content: "📝 Changelog" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "v1.0.0 - Initial release with full 6-database system, scene workflows, and gentle resurfacing" } }] } }
+    ]
+  });
+
   const home = await notion.pages.create({
     parent: { type: "page_id", page_id: parentPageId },
     icon: { type: "emoji", emoji: "🌚" },
@@ -104,7 +152,7 @@ async function createScaffoldPages(parentPageId: string) {
     ]
   });
 
-  const pages = { home, writingScene, editingScene, adminScene, reviewPage, created: true };
+  const pages = { templateRoot, home, writingScene, editingScene, adminScene, reviewPage, created: true };
   state.pages = pages;
   await fs.writeFile(stateFile, JSON.stringify(state, null, 2));
   
@@ -138,7 +186,8 @@ async function main() {
       "Due": dateProp,
       "Scene Default": selectProp(["Writing","Editing","Admin","Deep Work"].map(n=>({name:n}))),
       "Next Review": dateProp,
-      "Pinned": checkboxProp
+      "Pinned": checkboxProp,
+      "Demo": checkboxProp
     }
   });
 
@@ -149,7 +198,8 @@ async function main() {
       "Name": titleProp,
       "Role": selectProp(["Collaborator","Client","Body-Double","Friend"].map(n=>({name:n}))),
       "Email": emailProp,
-      "Notes": richTextProp
+      "Notes": richTextProp,
+      "Demo": checkboxProp
     }
   });
 
@@ -171,7 +221,8 @@ async function main() {
       "Timebox (min)": numberProp,
       "Resurface On": dateProp,
       "Pinned": checkboxProp,
-      "Completed On": dateProp
+      "Completed On": dateProp,
+      "Demo": checkboxProp
     }
   });
 
@@ -187,7 +238,8 @@ async function main() {
       "Excerpt": richTextProp,
       "Resurface On": dateProp,
       "Tags": multiSelectProp([]),
-      "Created": createdTimeProp
+      "Created": createdTimeProp,
+      "Demo": checkboxProp
     }
   });
 
@@ -203,7 +255,8 @@ async function main() {
       "Source URL": urlProp,
       "Pinned": checkboxProp,
       "Added": createdTimeProp,
-      "Tags": multiSelectProp([])
+      "Tags": multiSelectProp([]),
+      "Demo": checkboxProp
     }
   });
 
@@ -221,7 +274,8 @@ async function main() {
       "People": relationProp(peopleDb.id),
       "Resurface On": dateProp,
       "Pinned": checkboxProp,
-      "Created": createdTimeProp
+      "Created": createdTimeProp,
+      "Demo": checkboxProp
     }
   });
 
@@ -264,6 +318,7 @@ async function main() {
   console.log(`- People: ${peopleDb.id}`);
   
   console.log("\nPage IDs:");
+  console.log(`- Template Root: ${(pages.templateRoot as any).id}`);
   console.log(`- Home — Today: ${(pages.home as any).id}`);
   console.log(`- Writing Scene: ${(pages.writingScene as any).id}`);
   console.log(`- Editing Scene: ${(pages.editingScene as any).id}`);
