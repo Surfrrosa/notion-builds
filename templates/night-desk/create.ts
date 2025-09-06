@@ -112,7 +112,7 @@ async function createScaffoldPages(parentPageId: string) {
 }
 
 function validateUUID(uuid: string): boolean {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const uuidRegex = /^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/i;
   return uuidRegex.test(uuid);
 }
 
@@ -121,7 +121,7 @@ async function main() {
     throw new Error("Set NOTION_TOKEN and PARENT_PAGE_ID in .env");
   }
 
-  const parentPageId = process.env.PARENT_PAGE_ID.trim();
+  const parentPageId = process.env.PARENT_PAGE_ID.trim().replace(/^["']|["']$/g, '');
   if (!validateUUID(parentPageId)) {
     throw new Error(`PARENT_PAGE_ID must be a valid UUID format (e.g., "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"), got: "${parentPageId}"`);
   }
