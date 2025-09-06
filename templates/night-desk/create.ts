@@ -282,10 +282,10 @@ async function main() {
   await notion.databases.update({
     database_id: projectsDb.id,
     properties: {
-      "Tasks": { type: "relation", relation: { database_id: tasksDb.id } } as any,
-      "Notes": { type: "relation", relation: { database_id: notesDb.id } } as any,
-      "Assets": { type: "relation", relation: { database_id: assetsDb.id } } as any,
-      "People": { type: "relation", relation: { database_id: peopleDb.id } } as any,
+      "Tasks": { type: "relation", relation: { data_source_id: tasksDb.id } } as any,
+      "Notes": { type: "relation", relation: { data_source_id: notesDb.id } } as any,
+      "Assets": { type: "relation", relation: { data_source_id: assetsDb.id } } as any,
+      "People": { type: "relation", relation: { data_source_id: peopleDb.id } } as any,
       "Progress %": { type: "rollup", rollup: { relation_property_name: "Tasks", rollup_property_name: "Status", function: "percent_checked" } } as any
     }
   });
@@ -293,14 +293,14 @@ async function main() {
   await notion.databases.update({
     database_id: notesDb.id,
     properties: {
-      "Assets": { type: "relation", relation: { database_id: assetsDb.id } } as any
+      "Assets": { type: "relation", relation: { data_source_id: assetsDb.id } } as any
     }
   });
 
   await notion.databases.update({
     database_id: peopleDb.id,
     properties: {
-      "Projects": { type: "relation", relation: { database_id: projectsDb.id } } as any
+      "Projects": { type: "relation", relation: { data_source_id: projectsDb.id } } as any
     }
   });
 

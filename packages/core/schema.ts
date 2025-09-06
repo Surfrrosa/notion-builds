@@ -43,9 +43,15 @@ export const urlProp = { type: "url" as const, url: {} };
 export const emailProp = { type: "email" as const, email: {} };
 export const multiSelectProp = (options: SelectOption[] = []) => ({ type: "multi_select" as const, multi_select: { options } });
 export const createdTimeProp = { type: "created_time" as const, created_time: {} };
-export const relationProp = (database_id: string, dual_property?: string) => ({ 
+export const relationProp = (data_source_id: string, synced_property_name?: string) => ({ 
   type: "relation" as const,
-  relation: { database_id, ...(dual_property && { dual_property: { synced_property_name: dual_property } }) }
+  relation: { 
+    data_source_id,
+    ...(synced_property_name && { 
+      synced_property_name,
+      synced_property_id: synced_property_name
+    })
+  }
 });
 export const rollupProp = (relation_property: string, rollup_property: string, function_type: string) => ({
   type: "rollup" as const,
