@@ -12,6 +12,7 @@
     "seed:night-desk": "tsx scripts/seed-night-desk.ts",
     "validate:night-desk": "tsx scripts/validate-night-desk.ts",
     "review:cap": "tsx scripts/review-cap.ts --apply",
+    "docs:pdf": "md-to-pdf docs/quick-start.md && md-to-pdf docs/neuro-guide.md",
     "dev": "tsx --watch"
   },
   "dependencies": {
@@ -19,9 +20,10 @@
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "@types/node": "^20.11.5",
+    "md-to-pdf": "^5.2.4",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.3",
-    "@types/node": "^20.11.5"
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18.0.0"
