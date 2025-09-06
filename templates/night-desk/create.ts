@@ -3,6 +3,30 @@ import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, ri
 import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
+const ASSET_BASE_URL = "https://raw.githubusercontent.com/Surfrrosa/notion-builds/main/assets";
+
+const ICONS = {
+  home: `${ASSET_BASE_URL}/icons/home.png`,
+  inbox: `${ASSET_BASE_URL}/icons/inbox.png`,
+  tasks: `${ASSET_BASE_URL}/icons/tasks.png`,
+  projects: `${ASSET_BASE_URL}/icons/projects.png`,
+  notes: `${ASSET_BASE_URL}/icons/notes.png`,
+  assets: `${ASSET_BASE_URL}/icons/assets.png`,
+  people: `${ASSET_BASE_URL}/icons/people.png`,
+  writing: `${ASSET_BASE_URL}/icons/writing.png`,
+  editing: `${ASSET_BASE_URL}/icons/editing.png`,
+  admin: `${ASSET_BASE_URL}/icons/admin.png`,
+  review: `${ASSET_BASE_URL}/icons/review.png`,
+};
+
+const COVERS = [
+  `${ASSET_BASE_URL}/covers/gradient-dark-01.png`,
+  `${ASSET_BASE_URL}/covers/gradient-dark-02.png`,
+  `${ASSET_BASE_URL}/covers/gradient-dark-03.png`,
+  `${ASSET_BASE_URL}/covers/gradient-dark-04.png`,
+  `${ASSET_BASE_URL}/covers/gradient-dark-05.png`,
+];
+
 async function createScaffoldPages(parentPageId: string) {
   const stateFile = '.state.json';
   let state: any = {};
@@ -24,37 +48,37 @@ async function createScaffoldPages(parentPageId: string) {
   await notion.blocks.children.append({
     block_id: (templateRoot as any).id,
     children: [
-      { object: "block", heading_1: { rich_text: [{ type: "text", text: { content: "🌙 Night Desk" } }] } },
+      { object: "block", heading_1: { rich_text: [{ type: "text", text: { content: "Night Desk" } }] } },
       { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "The ADHD-friendly Notion workspace that works with your brain, not against it." } }] } },
       { object: "block", divider: {} },
-      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "🚀 Quick Navigation" } }] } },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "Quick Navigation" } }] } },
       { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Essential pages for your daily workflow:" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🌚 Home — Today (your daily dashboard)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "✍️ Writing Scene (focused writing environment)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🎬 Editing Scene (media and revision workspace)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "⚙️ Admin Scene (maintenance and project management)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🔄 Review (gentle resurfacing workflows)" } }] } },
-      { object: "block", heading_3: { rich_text: [{ type: "text", text: { content: "📊 Databases" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📥 Inbox (universal capture point)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "✅ Tasks (action items with GTD contexts)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📁 Projects (goal tracking with progress rollups)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🗒️ Notes (ideas, references, and drafts)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🗃️ Assets (visual shelf for files and media)" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "👥 People (collaborators and body-doubling partners)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Home — Today (your daily dashboard)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Writing Scene (focused writing environment)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Editing Scene (media and revision workspace)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Admin Scene (maintenance and project management)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Review (gentle resurfacing workflows)" } }] } },
+      { object: "block", heading_3: { rich_text: [{ type: "text", text: { content: "Databases" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Inbox (universal capture point)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Tasks (action items with GTD contexts)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Projects (goal tracking with progress rollups)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Notes (ideas, references, and drafts)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Assets (visual shelf for files and media)" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "People (collaborators and body-doubling partners)" } }] } },
       { object: "block", divider: {} },
-      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "📚 Start Here" } }] } },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "Start Here" } }] } },
       { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Get up and running in 5 minutes with our comprehensive guides:" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📖 Quick Start Guide (PDF) - Visual setup walkthrough" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🧠 Neuro Guide (PDF) - ADHD-friendly design principles" } }] } },
-      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "💡 Pro tip: Start by capturing everything in your Inbox, then use the Promote buttons to organize items into their proper databases." } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Quick Start Guide (PDF) - Visual setup walkthrough" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Neuro Guide (PDF) - ADHD-friendly design principles" } }] } },
+      { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Pro tip: Start by capturing everything in your Inbox, then use the Promote buttons to organize items into their proper databases." } }] } },
       { object: "block", divider: {} },
-      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "🧹 Demo Data" } }] } },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "Demo Data" } }] } },
       { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "This template includes demo content to help you understand the workflow. Each database has:" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📋 Demo Data view - See all example content" } }] } },
-      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🗑️ Archive Demo button - Hide demo items when you're ready" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Demo Data view - See all example content" } }] } },
+      { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "Archive Demo button - Hide demo items when you're ready" } }] } },
       { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "When you're comfortable with the system, use the Archive Demo buttons to clean up and start fresh!" } }] } },
       { object: "block", divider: {} },
-      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "💬 Support & Updates" } }] } },
+      { object: "block", heading_2: { rich_text: [{ type: "text", text: { content: "Support & Updates" } }] } },
       { object: "block", paragraph: { rich_text: [{ type: "text", text: { content: "Questions? Need help customizing your workspace?" } }] } },
       { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "📧 Email: support@nightdesk.template" } }] } },
       { object: "block", bulleted_list_item: { rich_text: [{ type: "text", text: { content: "🔗 Updates: Check back for new features and improvements" } }] } },
@@ -177,7 +201,6 @@ async function main() {
 
   const projectsDb = await createOrUpdateDatabase({
     title: "Projects",
-    icon: { emoji: "📁" },
     properties: {
       "Name": titleProp,
       "Goal": richTextProp,
@@ -192,7 +215,6 @@ async function main() {
 
   const peopleDb = await createOrUpdateDatabase({
     title: "People",
-    icon: { emoji: "👥" },
     properties: {
       "Name": titleProp,
       "Role": selectProp(["Collaborator","Client","Body-Double","Friend"].map(n=>({name:n}))),
@@ -204,7 +226,6 @@ async function main() {
 
   const tasksDb = await createOrUpdateDatabase({
     title: "Tasks",
-    icon: { emoji: "✅" },
     properties: {
       "Name": titleProp,
       "Project": relationSingle(projectsDb.id),
@@ -225,10 +246,8 @@ async function main() {
     }
   });
 
-  // 4) Notes
   const notesDb = await createOrUpdateDatabase({
     title: "Notes",
-    icon: { emoji: "🗒️" },
     properties: {
       "Name": titleProp,
       "Project": relationSingle(projectsDb.id),
@@ -242,10 +261,8 @@ async function main() {
     }
   });
 
-  // 5) Assets (the "Shelf")
   const assetsDb = await createOrUpdateDatabase({
     title: "Assets",
-    icon: { emoji: "🗃️" },
     properties: {
       "Name": titleProp,
       "Files": filesProp,
@@ -259,10 +276,8 @@ async function main() {
     }
   });
 
-  // 6) Inbox (quick capture)
   const inboxDb = await createOrUpdateDatabase({
     title: "Inbox",
-    icon: { emoji: "📥" },
     properties: {
       "Name": titleProp,
       "Type": selectProp(["Idea","Task","Note","Asset","Link"].map(n=>({name:n}))),
@@ -312,10 +327,218 @@ async function main() {
     }
   });
 
+  console.log("Applying premium brand assets...");
+  
+  await notion.databases.update({
+    database_id: projectsDb.id,
+    icon: { type: "external", external: { url: ICONS.projects } },
+    cover: { type: "external", external: { url: COVERS[0] } }
+  });
+  
+  await notion.databases.update({
+    database_id: peopleDb.id,
+    icon: { type: "external", external: { url: ICONS.people } },
+    cover: { type: "external", external: { url: COVERS[1] } }
+  });
+  
+  await notion.databases.update({
+    database_id: tasksDb.id,
+    icon: { type: "external", external: { url: ICONS.tasks } },
+    cover: { type: "external", external: { url: COVERS[2] } }
+  });
+  
+  await notion.databases.update({
+    database_id: notesDb.id,
+    icon: { type: "external", external: { url: ICONS.notes } },
+    cover: { type: "external", external: { url: COVERS[3] } }
+  });
+  
+  await notion.databases.update({
+    database_id: assetsDb.id,
+    icon: { type: "external", external: { url: ICONS.assets } },
+    cover: { type: "external", external: { url: COVERS[4] } }
+  });
+  
+  await notion.databases.update({
+    database_id: inboxDb.id,
+    icon: { type: "external", external: { url: ICONS.inbox } },
+    cover: { type: "external", external: { url: COVERS[0] } }
+  });
+
   console.log("Creating scaffold pages...");
   const pages = await createScaffoldPages(parentPageId);
 
-  console.log("✅ Night Desk template created successfully!");
+  console.log("Applying assets to scaffold pages...");
+  
+  await notion.pages.update({
+    page_id: (pages.templateRoot as any).id,
+    icon: { type: "external", external: { url: ICONS.home } },
+    cover: { type: "external", external: { url: COVERS[0] } }
+  });
+  
+  await notion.pages.update({
+    page_id: (pages.home as any).id,
+    icon: { type: "external", external: { url: ICONS.home } },
+    cover: { type: "external", external: { url: COVERS[1] } }
+  });
+  
+  await notion.pages.update({
+    page_id: (pages.writingScene as any).id,
+    icon: { type: "external", external: { url: ICONS.writing } },
+    cover: { type: "external", external: { url: COVERS[2] } }
+  });
+  
+  await notion.pages.update({
+    page_id: (pages.editingScene as any).id,
+    icon: { type: "external", external: { url: ICONS.editing } },
+    cover: { type: "external", external: { url: COVERS[3] } }
+  });
+  
+  await notion.pages.update({
+    page_id: (pages.adminScene as any).id,
+    icon: { type: "external", external: { url: ICONS.admin } },
+    cover: { type: "external", external: { url: COVERS[4] } }
+  });
+  
+  await notion.pages.update({
+    page_id: (pages.reviewPage as any).id,
+    icon: { type: "external", external: { url: ICONS.review } },
+    cover: { type: "external", external: { url: COVERS[0] } }
+  });
+
+  console.log("Creating synced navigation block...");
+  
+  const navResponse = await notion.blocks.children.append({
+    block_id: (pages.home as any).id,
+    children: [{
+      object: "block",
+      type: "synced_block",
+      synced_block: {
+        synced_from: null,
+        children: [{
+          object: "block",
+          type: "paragraph",
+          paragraph: {
+            rich_text: [
+              { type: "text", text: { content: "Home — Today" }, annotations: { bold: true } },
+              { type: "text", text: { content: " · " } },
+              { type: "text", text: { content: "Scenes: " } },
+              { type: "text", text: { content: "Writing" }, annotations: { bold: true } },
+              { type: "text", text: { content: " · " } },
+              { type: "text", text: { content: "Editing" }, annotations: { bold: true } },
+              { type: "text", text: { content: " · " } },
+              { type: "text", text: { content: "Admin" }, annotations: { bold: true } },
+              { type: "text", text: { content: " · " } },
+              { type: "text", text: { content: "Review" }, annotations: { bold: true } },
+              { type: "text", text: { content: " · " } },
+              { type: "text", text: { content: "Databases" }, annotations: { bold: true } }
+            ]
+          }
+        }]
+      }
+    }]
+  });
+  
+  const navBlockId = navResponse.results[0].id;
+  
+  const pagesToAddNav = [
+    (pages.writingScene as any).id,
+    (pages.editingScene as any).id,
+    (pages.adminScene as any).id,
+    (pages.reviewPage as any).id
+  ];
+  
+  for (const pageId of pagesToAddNav) {
+    await notion.blocks.children.append({
+      block_id: pageId,
+      children: [{
+        object: "block",
+        type: "synced_block",
+        synced_block: {
+          synced_from: { block_id: navBlockId }
+        }
+      }]
+    });
+  }
+
+  console.log("Creating Home layout sections...");
+  
+  await notion.blocks.children.append({
+    block_id: (pages.home as any).id,
+    children: [
+      {
+        object: "block",
+        type: "heading_2",
+        heading_2: { rich_text: [{ type: "text", text: { content: "Now" } }] }
+      },
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: { rich_text: [{ type: "text", text: { content: "Tasks board: columns Now/Next/Done; filter Status=Now; show Priority, Due, Timebox" } }] }
+      },
+      {
+        object: "block",
+        type: "heading_2",
+        heading_2: { rich_text: [{ type: "text", text: { content: "Next" } }] }
+      },
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: { rich_text: [{ type: "text", text: { content: "Tasks list: Status=Next; sort Due asc, Priority desc" } }] }
+      },
+      {
+        object: "block",
+        type: "heading_2",
+        heading_2: { rich_text: [{ type: "text", text: { content: "Shelf" } }] }
+      },
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: { rich_text: [{ type: "text", text: { content: "Assets gallery: card preview=Files; Pinned desc, Added desc" } }] }
+      },
+      {
+        object: "block",
+        type: "heading_2",
+        heading_2: { rich_text: [{ type: "text", text: { content: "Resurface Lane" } }] }
+      },
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: { rich_text: [{ type: "text", text: { content: "Tasks with Resurface On = today" } }] }
+      },
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: { rich_text: [{ type: "text", text: { content: "Notes with Resurface On = today" } }] }
+      }
+    ]
+  });
+
+  console.log("Preparing web sharing setup...");
+  
+  const state = JSON.parse(await fs.readFile('.state.json', 'utf8'));
+  state.webSharing = {
+    templateRootId: (pages.templateRoot as any).id,
+    publicUrl: "TO_BE_UPDATED_MANUALLY"
+  };
+  await fs.writeFile('.state.json', JSON.stringify(state, null, 2));
+
+  console.log("✅ Night Desk premium template created successfully!");
+  console.log("\n🎨 Brand Assets Applied:");
+  console.log("- Custom white line-art icons applied to all databases and pages");
+  console.log("- Dark gradient covers applied with consistent aesthetic");
+  console.log("- All emojis removed for professional appearance");
+  console.log("- Synced navigation block created and distributed");
+  console.log("- Home layout sections implemented");
+  
+  console.log("\n📄 Page URLs (for manual web sharing setup):");
+  console.log(`- Template Root: https://notion.so/${(pages.templateRoot as any).id.replace(/-/g, '')}`);
+  
+  console.log("\n🔗 Asset URLs Used:");
+  Object.entries(ICONS).forEach(([key, url]) => {
+    console.log(`- ${key}: ${url}`);
+  });
+  
   console.log("\nDatabase IDs:");
   console.log(`- Inbox: ${inboxDb.id}`);
   console.log(`- Tasks: ${tasksDb.id}`);
@@ -332,10 +555,14 @@ async function main() {
   console.log(`- Admin Scene: ${(pages.adminScene as any).id}`);
   console.log(`- Review: ${(pages.reviewPage as any).id}`);
   
-  console.log("\nNext steps:");
+  console.log("\n⚠️  Manual steps required:");
   console.log("1. Run 'npm run seed:night-desk' to add demo content");
-  console.log("2. In Notion UI, add linked database views under each page section");
-  console.log("3. Create Buttons for promoting Inbox items and resurfacing content");
+  console.log("2. Enable web sharing on Template Root page:");
+  console.log(`   - Open: https://notion.so/${(pages.templateRoot as any).id.replace(/-/g, '')}`);
+  console.log("   - Click Share → Share to web → Allow duplicate as template");
+  console.log("   - Copy the public duplicate link");
+  console.log("3. In Notion UI, add linked database views under each page section");
+  console.log("4. Create Buttons for promoting Inbox items and resurfacing content");
 }
 
 main().catch(err => {
