@@ -361,37 +361,37 @@ async function main() {
   await notion.databases.update({
     database_id: projectsDb.id,
     icon: { type: "external", external: { url: ICONS.projects } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    cover: { type: "external", external: { url: COVERS.home } }
   });
   
   await notion.databases.update({
     database_id: peopleDb.id,
     icon: { type: "external", external: { url: ICONS.people } },
-    cover: { type: "external", external: { url: COVERS[1] } }
+    cover: { type: "external", external: { url: COVERS.writing } }
   });
   
   await notion.databases.update({
     database_id: tasksDb.id,
     icon: { type: "external", external: { url: ICONS.tasks } },
-    cover: { type: "external", external: { url: COVERS[2] } }
+    cover: { type: "external", external: { url: COVERS.editing } }
   });
   
   await notion.databases.update({
     database_id: notesDb.id,
     icon: { type: "external", external: { url: ICONS.notes } },
-    cover: { type: "external", external: { url: COVERS[3] } }
+    cover: { type: "external", external: { url: COVERS.admin } }
   });
   
   await notion.databases.update({
     database_id: assetsDb.id,
     icon: { type: "external", external: { url: ICONS.assets } },
-    cover: { type: "external", external: { url: COVERS[4] } }
+    cover: { type: "external", external: { url: COVERS.review } }
   });
   
   await notion.databases.update({
     database_id: inboxDb.id,
     icon: { type: "external", external: { url: ICONS.inbox } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    cover: { type: "external", external: { url: COVERS.templateRoot } }
   });
 
   console.log("Creating scaffold pages...");
@@ -401,38 +401,38 @@ async function main() {
   
   await notion.pages.update({
     page_id: (pages.templateRoot as any).id,
-    icon: { type: "external", external: { url: ICONS.home } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    icon: { type: "external", external: { url: ICONS.templateRoot } },
+    cover: { type: "external", external: { url: COVERS.templateRoot } }
   });
   
   await notion.pages.update({
     page_id: (pages.home as any).id,
     icon: { type: "external", external: { url: ICONS.home } },
-    cover: { type: "external", external: { url: COVERS[1] } }
+    cover: { type: "external", external: { url: COVERS.home } }
   });
   
   await notion.pages.update({
     page_id: (pages.writingScene as any).id,
     icon: { type: "external", external: { url: ICONS.writing } },
-    cover: { type: "external", external: { url: COVERS[2] } }
+    cover: { type: "external", external: { url: COVERS.writing } }
   });
   
   await notion.pages.update({
     page_id: (pages.editingScene as any).id,
     icon: { type: "external", external: { url: ICONS.editing } },
-    cover: { type: "external", external: { url: COVERS[3] } }
+    cover: { type: "external", external: { url: COVERS.editing } }
   });
   
   await notion.pages.update({
     page_id: (pages.adminScene as any).id,
     icon: { type: "external", external: { url: ICONS.admin } },
-    cover: { type: "external", external: { url: COVERS[4] } }
+    cover: { type: "external", external: { url: COVERS.admin } }
   });
   
   await notion.pages.update({
     page_id: (pages.reviewPage as any).id,
     icon: { type: "external", external: { url: ICONS.review } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    cover: { type: "external", external: { url: COVERS.review } }
   });
 
   console.log("Creating synced navigation block...");
@@ -570,8 +570,8 @@ async function main() {
     console.log(`  - ${key}: ${url}`);
   });
   console.log("Covers:");
-  COVERS.forEach((url, index) => {
-    console.log(`  - gradient-dark-0${index + 1}: ${url}`);
+  Object.entries(COVERS).forEach(([key, url]) => {
+    console.log(`  - ${key}: ${url}`);
   });
   
   console.log("\n📊 Databases Updated with Premium Assets:");
