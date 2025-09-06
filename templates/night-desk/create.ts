@@ -3,29 +3,29 @@ import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, ri
 import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
-const ASSET_BASE_URL = "https://raw.githubusercontent.com/Surfrrosa/notion-builds/main/assets";
-
 const ICONS = {
-  home: `${ASSET_BASE_URL}/icons/home.png`,
-  inbox: `${ASSET_BASE_URL}/icons/inbox.png`,
-  tasks: `${ASSET_BASE_URL}/icons/tasks.png`,
-  projects: `${ASSET_BASE_URL}/icons/projects.png`,
-  notes: `${ASSET_BASE_URL}/icons/notes.png`,
-  assets: `${ASSET_BASE_URL}/icons/assets.png`,
-  people: `${ASSET_BASE_URL}/icons/people.png`,
-  writing: `${ASSET_BASE_URL}/icons/writing.png`,
-  editing: `${ASSET_BASE_URL}/icons/editing.png`,
-  admin: `${ASSET_BASE_URL}/icons/admin.png`,
-  review: `${ASSET_BASE_URL}/icons/review.png`,
+  templateRoot: "https://www.notion.so/icons/template_gray.svg",
+  home: "https://www.notion.so/icons/home_gray.svg",
+  inbox: "https://www.notion.so/icons/inbox_gray.svg", 
+  tasks: "https://www.notion.so/icons/checkmark_gray.svg",
+  projects: "https://www.notion.so/icons/folder_gray.svg",
+  notes: "https://www.notion.so/icons/document_gray.svg",
+  assets: "https://www.notion.so/icons/image_gray.svg",
+  people: "https://www.notion.so/icons/person_gray.svg",
+  writing: "https://www.notion.so/icons/pencil_gray.svg",
+  editing: "https://www.notion.so/icons/edit_gray.svg",
+  admin: "https://www.notion.so/icons/settings_gray.svg",
+  review: "https://www.notion.so/icons/eye_gray.svg",
 };
 
-const COVERS = [
-  `${ASSET_BASE_URL}/covers/gradient-dark-01.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-02.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-03.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-04.png`,
-  `${ASSET_BASE_URL}/covers/gradient-dark-05.png`,
-];
+const COVERS = {
+  templateRoot: "https://www.notion.so/images/page-cover/gradients_11.jpg",
+  home: "https://www.notion.so/images/page-cover/gradients_3.jpg",
+  writing: "https://www.notion.so/images/page-cover/gradients_8.jpg",
+  editing: "https://www.notion.so/images/page-cover/solid_black.png",
+  admin: "https://www.notion.so/images/page-cover/gradients_1.jpg",
+  review: "https://www.notion.so/images/page-cover/gradients_11.jpg"
+};
 
 async function createScaffoldPages(parentPageId: string) {
   const stateFile = '.state.json';
@@ -34,16 +34,45 @@ async function createScaffoldPages(parentPageId: string) {
     state = JSON.parse(await fs.readFile(stateFile, 'utf8'));
   } catch {}
 
+  async function findExistingPage(title: string) {
+    try {
+      const searchResponse = await notion.search({
+        query: title,
+        filter: { value: "page", property: "object" }
+      });
+      
+      for (const result of searchResponse.results) {
+        const page = result as any;
+        if (page.parent?.type === 'page_id' && 
+            page.parent.page_id === parentPageId && 
+            page.properties?.title?.title?.[0]?.plain_text === title) {
+          return page.id;
+        }
+      }
+    } catch (error) {
+      console.warn(`Search failed for page "${title}":`, error);
+    }
+    return null;
+  }
+
   if (state.pages?.created) {
     console.log("Scaffold pages already created, skipping...");
     return state.pages;
   }
 
-  const templateRoot = await notion.pages.create({
-    parent: { type: "page_id", page_id: parentPageId },
-    icon: { type: "emoji", emoji: "🌙" },
-    properties: { title: [{ type: "text", text: { content: "Night Desk — Template Root" } }] }
-  });
+  let templateRootId = await findExistingPage("Night Desk — Template Root");
+  let templateRoot;
+  
+  if (templateRootId) {
+    console.log("Template Root page found via search, updating state...");
+    templateRoot = { id: templateRootId };
+  } else {
+    templateRoot = await notion.pages.create({
+      parent: { type: "page_id", page_id: parentPageId },
+      icon: { type: "external", external: { url: ICONS.templateRoot } },
+      properties: { title: [{ type: "text", text: { content: "Night Desk — Template Root" } }] }
+    });
+  }
 
   await notion.blocks.children.append({
     block_id: (templateRoot as any).id,
@@ -332,37 +361,37 @@ async function main() {
   await notion.databases.update({
     database_id: projectsDb.id,
     icon: { type: "external", external: { url: ICONS.projects } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    cover: { type: "external", external: { url: COVERS.home } }
   });
   
   await notion.databases.update({
     database_id: peopleDb.id,
     icon: { type: "external", external: { url: ICONS.people } },
-    cover: { type: "external", external: { url: COVERS[1] } }
+    cover: { type: "external", external: { url: COVERS.writing } }
   });
   
   await notion.databases.update({
     database_id: tasksDb.id,
     icon: { type: "external", external: { url: ICONS.tasks } },
-    cover: { type: "external", external: { url: COVERS[2] } }
+    cover: { type: "external", external: { url: COVERS.editing } }
   });
   
   await notion.databases.update({
     database_id: notesDb.id,
     icon: { type: "external", external: { url: ICONS.notes } },
-    cover: { type: "external", external: { url: COVERS[3] } }
+    cover: { type: "external", external: { url: COVERS.admin } }
   });
   
   await notion.databases.update({
     database_id: assetsDb.id,
     icon: { type: "external", external: { url: ICONS.assets } },
-    cover: { type: "external", external: { url: COVERS[4] } }
+    cover: { type: "external", external: { url: COVERS.review } }
   });
   
   await notion.databases.update({
     database_id: inboxDb.id,
     icon: { type: "external", external: { url: ICONS.inbox } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    cover: { type: "external", external: { url: COVERS.templateRoot } }
   });
 
   console.log("Creating scaffold pages...");
@@ -372,38 +401,38 @@ async function main() {
   
   await notion.pages.update({
     page_id: (pages.templateRoot as any).id,
-    icon: { type: "external", external: { url: ICONS.home } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    icon: { type: "external", external: { url: ICONS.templateRoot } },
+    cover: { type: "external", external: { url: COVERS.templateRoot } }
   });
   
   await notion.pages.update({
     page_id: (pages.home as any).id,
     icon: { type: "external", external: { url: ICONS.home } },
-    cover: { type: "external", external: { url: COVERS[1] } }
+    cover: { type: "external", external: { url: COVERS.home } }
   });
   
   await notion.pages.update({
     page_id: (pages.writingScene as any).id,
     icon: { type: "external", external: { url: ICONS.writing } },
-    cover: { type: "external", external: { url: COVERS[2] } }
+    cover: { type: "external", external: { url: COVERS.writing } }
   });
   
   await notion.pages.update({
     page_id: (pages.editingScene as any).id,
     icon: { type: "external", external: { url: ICONS.editing } },
-    cover: { type: "external", external: { url: COVERS[3] } }
+    cover: { type: "external", external: { url: COVERS.editing } }
   });
   
   await notion.pages.update({
     page_id: (pages.adminScene as any).id,
     icon: { type: "external", external: { url: ICONS.admin } },
-    cover: { type: "external", external: { url: COVERS[4] } }
+    cover: { type: "external", external: { url: COVERS.admin } }
   });
   
   await notion.pages.update({
     page_id: (pages.reviewPage as any).id,
     icon: { type: "external", external: { url: ICONS.review } },
-    cover: { type: "external", external: { url: COVERS[0] } }
+    cover: { type: "external", external: { url: COVERS.review } }
   });
 
   console.log("Creating synced navigation block...");
@@ -541,8 +570,8 @@ async function main() {
     console.log(`  - ${key}: ${url}`);
   });
   console.log("Covers:");
-  COVERS.forEach((url, index) => {
-    console.log(`  - gradient-dark-0${index + 1}: ${url}`);
+  Object.entries(COVERS).forEach(([key, url]) => {
+    console.log(`  - ${key}: ${url}`);
   });
   
   console.log("\n📊 Databases Updated with Premium Assets:");
