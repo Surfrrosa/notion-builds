@@ -18,20 +18,20 @@ interface DedupeResult {
 
 const CANONICAL_NAMES = {
   databases: [
-    "Night Desk — Inbox",
-    "Night Desk — Tasks", 
-    "Night Desk — Projects",
-    "Night Desk — Notes",
-    "Night Desk — Assets",
-    "Night Desk — People"
+    "Inbox",
+    "Tasks", 
+    "Projects",
+    "Notes",
+    "Assets",
+    "People"
   ],
   pages: [
-    "Night Desk — Home — Today",
-    "Night Desk — Writing Scene",
-    "Night Desk — Editing Scene", 
-    "Night Desk — Admin Scene",
-    "Night Desk — Review",
-    "Night Desk — Template Root"
+    "Night Desk — Template Root",
+    "Home — Today",
+    "Writing Scene",
+    "Editing Scene", 
+    "Admin Scene",
+    "Review"
   ]
 };
 
@@ -153,11 +153,18 @@ async function archiveDuplicate(item: SearchResult, type: 'database' | 'page', a
         });
         console.log(`✅ Archived page: ${item.title}`);
       } catch {
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T').join('-').slice(0, 16);
+        const newTitle = `DUPLICATE — ${item.title} — ${timestamp}`;
+        
         await notion.pages.update({
           page_id: item.id,
-          parent: { page_id: archivePageId }
+          properties: {
+            title: {
+              title: [{ type: "text", text: { content: newTitle } }]
+            }
+          }
         });
-        console.log(`📁 Moved page to archive: ${item.title}`);
+        console.log(`🏷️  Renamed page: ${item.title} → ${newTitle}`);
       }
     } else {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T').join('-').slice(0, 16);
@@ -165,10 +172,9 @@ async function archiveDuplicate(item: SearchResult, type: 'database' | 'page', a
       
       await notion.databases.update({
         database_id: item.id,
-        title: [{ type: "text", text: { content: newTitle } }],
-        parent: { page_id: archivePageId }
+        title: [{ type: "text", text: { content: newTitle } }]
       });
-      console.log(`📁 Renamed and moved database: ${item.title} → ${newTitle}`);
+      console.log(`🏷️  Renamed database: ${item.title} → ${newTitle}`);
     }
   } catch (error) {
     console.error(`Failed to archive ${type} ${item.title}:`, error);
@@ -188,20 +194,20 @@ async function writeStateFile(keepers: Record<string, string>): Promise<void> {
     const newState = {
       ...existingState,
       databases: {
-        Inbox: keepers['Night Desk — Inbox'],
-        Tasks: keepers['Night Desk — Tasks'],
-        Projects: keepers['Night Desk — Projects'],
-        Notes: keepers['Night Desk — Notes'],
-        Assets: keepers['Night Desk — Assets'],
-        People: keepers['Night Desk — People']
+        Inbox: keepers['Inbox'],
+        Tasks: keepers['Tasks'],
+        Projects: keepers['Projects'],
+        Notes: keepers['Notes'],
+        Assets: keepers['Assets'],
+        People: keepers['People']
       },
       pages: {
         templateRoot: keepers['Night Desk — Template Root'],
-        home: keepers['Night Desk — Home — Today'],
-        writingScene: keepers['Night Desk — Writing Scene'],
-        editingScene: keepers['Night Desk — Editing Scene'],
-        adminScene: keepers['Night Desk — Admin Scene'],
-        reviewPage: keepers['Night Desk — Review']
+        home: keepers['Home — Today'],
+        writingScene: keepers['Writing Scene'],
+        editingScene: keepers['Editing Scene'],
+        adminScene: keepers['Admin Scene'],
+        reviewPage: keepers['Review']
       },
       lastDeduped: new Date().toISOString()
     };

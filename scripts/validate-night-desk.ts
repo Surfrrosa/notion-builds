@@ -86,6 +86,44 @@ async function validateNightDesk(): Promise<ValidationResult> {
     result.warnings.push("⚠️  No pages found in state - scaffold pages may not be created");
   }
 
+  const parentPageId = process.env.PARENT_PAGE_ID;
+  if (parentPageId) {
+    console.log("🔍 Checking for duplicates under PARENT_PAGE_ID...");
+    
+    const canonicalNames = [
+      ...["Inbox", "Tasks", "Projects", "Notes", "Assets", "People"],
+      ...["Night Desk — Template Root", "Home — Today", "Writing Scene", "Editing Scene", "Admin Scene", "Review"]
+    ];
+    
+    for (const name of canonicalNames) {
+      try {
+        const searchResponse = await notion.search({
+          query: name,
+          filter: { value: name.includes("—") ? "page" : "database", property: "object" }
+        });
+        
+        const matches = searchResponse.results.filter((result: any) => {
+          const isCorrectParent = result.parent?.type === 'page_id' && result.parent.page_id === parentPageId;
+          const title = name.includes("—") 
+            ? result.properties?.title?.title?.[0]?.plain_text 
+            : result.title?.[0]?.plain_text;
+          return isCorrectParent && title === name;
+        });
+        
+        if (matches.length > 1) {
+          result.errors.push(`❌ Multiple instances of "${name}" found under PARENT_PAGE_ID: ${matches.length} copies`);
+          result.success = false;
+        } else if (matches.length === 1) {
+          console.log(`✅ Single instance of "${name}" found`);
+        } else {
+          result.warnings.push(`⚠️  No instances of "${name}" found under PARENT_PAGE_ID`);
+        }
+      } catch (error) {
+        result.warnings.push(`⚠️  Failed to search for "${name}": ${error}`);
+      }
+    }
+  }
+
   result.warnings.push("⚠️  Manual verification needed for saved views on Home — Today (Now, Next, Shelf, Resurface Lane)");
   result.warnings.push("⚠️  Manual verification needed for Buttons on Inbox and Review pages");
   result.warnings.push("⚠️  Manual verification needed for filtered views on Scene pages");

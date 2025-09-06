@@ -4,6 +4,7 @@ import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
 const ICONS = {
+  templateRoot: "https://www.notion.so/icons/template_gray.svg",
   home: "https://www.notion.so/icons/home_gray.svg",
   inbox: "https://www.notion.so/icons/inbox_gray.svg", 
   tasks: "https://www.notion.so/icons/checkmark_gray.svg",
@@ -17,13 +18,14 @@ const ICONS = {
   review: "https://www.notion.so/icons/eye_gray.svg",
 };
 
-const COVERS = [
-  "https://www.notion.so/images/page-cover/gradients_11.jpg",
-  "https://www.notion.so/images/page-cover/gradients_3.jpg",
-  "https://www.notion.so/images/page-cover/gradients_8.jpg",
-  "https://www.notion.so/images/page-cover/solid_black.png",
-  "https://www.notion.so/images/page-cover/gradients_1.jpg",
-];
+const COVERS = {
+  templateRoot: "https://www.notion.so/images/page-cover/gradients_11.jpg",
+  home: "https://www.notion.so/images/page-cover/gradients_3.jpg",
+  writing: "https://www.notion.so/images/page-cover/gradients_8.jpg",
+  editing: "https://www.notion.so/images/page-cover/solid_black.png",
+  admin: "https://www.notion.so/images/page-cover/gradients_1.jpg",
+  review: "https://www.notion.so/images/page-cover/gradients_11.jpg"
+};
 
 async function createScaffoldPages(parentPageId: string) {
   const stateFile = '.state.json';
@@ -32,16 +34,45 @@ async function createScaffoldPages(parentPageId: string) {
     state = JSON.parse(await fs.readFile(stateFile, 'utf8'));
   } catch {}
 
+  async function findExistingPage(title: string) {
+    try {
+      const searchResponse = await notion.search({
+        query: title,
+        filter: { value: "page", property: "object" }
+      });
+      
+      for (const result of searchResponse.results) {
+        const page = result as any;
+        if (page.parent?.type === 'page_id' && 
+            page.parent.page_id === parentPageId && 
+            page.properties?.title?.title?.[0]?.plain_text === title) {
+          return page.id;
+        }
+      }
+    } catch (error) {
+      console.warn(`Search failed for page "${title}":`, error);
+    }
+    return null;
+  }
+
   if (state.pages?.created) {
     console.log("Scaffold pages already created, skipping...");
     return state.pages;
   }
 
-  const templateRoot = await notion.pages.create({
-    parent: { type: "page_id", page_id: parentPageId },
-    icon: { type: "emoji", emoji: "🌙" },
-    properties: { title: [{ type: "text", text: { content: "Night Desk — Template Root" } }] }
-  });
+  let templateRootId = await findExistingPage("Night Desk — Template Root");
+  let templateRoot;
+  
+  if (templateRootId) {
+    console.log("Template Root page found via search, updating state...");
+    templateRoot = { id: templateRootId };
+  } else {
+    templateRoot = await notion.pages.create({
+      parent: { type: "page_id", page_id: parentPageId },
+      icon: { type: "external", external: { url: ICONS.templateRoot } },
+      properties: { title: [{ type: "text", text: { content: "Night Desk — Template Root" } }] }
+    });
+  }
 
   await notion.blocks.children.append({
     block_id: (templateRoot as any).id,

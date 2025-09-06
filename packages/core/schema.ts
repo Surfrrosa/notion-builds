@@ -14,8 +14,33 @@ export async function createOrUpdateDatabase(opts: {
     state = JSON.parse(await fs.readFile(stateFile, 'utf8'));
   } catch {}
   
+  const parentPageId = process.env.PARENT_PAGE_ID;
+  if (parentPageId) {
+    try {
+      const searchResponse = await notion.search({
+        query: opts.title,
+        filter: { value: "database", property: "object" }
+      });
+      
+      for (const result of searchResponse.results) {
+        const db = result as any;
+        if (db.parent?.type === 'page_id' && 
+            db.parent.page_id === parentPageId && 
+            db.title?.[0]?.plain_text === opts.title) {
+          console.log(`Database "${opts.title}" found via search, updating state...`);
+          state.databases = state.databases || {};
+          state.databases[opts.title] = db.id;
+          await fs.writeFile(stateFile, JSON.stringify(state, null, 2));
+          return { id: db.id };
+        }
+      }
+    } catch (error) {
+      console.warn(`Search failed for database "${opts.title}":`, error);
+    }
+  }
+  
   if (state.databases?.[opts.title]) {
-    console.log(`Database "${opts.title}" already exists, skipping...`);
+    console.log(`Database "${opts.title}" found in state, skipping...`);
     return { id: state.databases[opts.title] };
   }
   
