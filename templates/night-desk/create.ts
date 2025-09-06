@@ -1,5 +1,5 @@
 import { notion } from "../../packages/core/notion.js";
-import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, richTextProp, checkboxProp, filesProp, urlProp, emailProp, multiSelectProp, createdTimeProp, relationProp, rollupProp, formulaProp, ensureDualRelation } from "../../packages/core/schema.js";
+import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, richTextProp, checkboxProp, filesProp, urlProp, emailProp, multiSelectProp, createdTimeProp, relationProp, relationSingle, rollupProp, formulaProp, ensureDualRelation } from "../../packages/core/schema.js";
 import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
@@ -207,7 +207,7 @@ async function main() {
     icon: { emoji: "✅" },
     properties: {
       "Name": titleProp,
-      "Project": relationProp(projectsDb.id),
+      "Project": relationSingle(projectsDb.id),
       "Status": selectProp(["Now","Next","Scheduled","Waiting","Done"].map(n=>({name:n}))),
       "Priority": selectProp(["Low","Med","High"].map(n=>({name:n}))),
       "Effort (hrs)": numberProp,
@@ -231,7 +231,7 @@ async function main() {
     icon: { emoji: "🗒️" },
     properties: {
       "Name": titleProp,
-      "Project": relationProp(projectsDb.id),
+      "Project": relationSingle(projectsDb.id),
       "Type": selectProp(["Idea","Reference","Draft"].map(n=>({name:n}))),
       "Source URL": urlProp,
       "Excerpt": richTextProp,
@@ -250,7 +250,7 @@ async function main() {
       "Name": titleProp,
       "Files": filesProp,
       "Type": selectProp(["Image","Video","Audio","Doc","Thumb","B-roll"].map(n=>({name:n}))),
-      "Project": relationProp(projectsDb.id),
+      "Project": relationSingle(projectsDb.id),
       "Source URL": urlProp,
       "Pinned": checkboxProp,
       "Added": createdTimeProp,
@@ -269,8 +269,8 @@ async function main() {
       "File": filesProp,
       "URL": urlProp,
       "Next Tiny Step": richTextProp,
-      "Project": relationProp(projectsDb.id),
-      "People": relationProp(peopleDb.id),
+      "Project": relationSingle(projectsDb.id),
+      "People": relationSingle(peopleDb.id),
       "Resurface On": dateProp,
       "Pinned": checkboxProp,
       "Created": createdTimeProp,
