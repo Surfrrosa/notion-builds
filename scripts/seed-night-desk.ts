@@ -1,12 +1,12 @@
 import 'dotenv/config';
 import { notion } from "../packages/core/notion.js";
-import fs from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 
 async function seedNightDesk() {
   const stateFile = '.state.json';
   let state: any = {};
   try {
-    state = JSON.parse(await fs.readFile(stateFile, 'utf8'));
+    state = JSON.parse(await readFile(stateFile, 'utf8'));
   } catch {
     console.error("No .state.json found. Run 'npm run build:night-desk' first.");
     process.exit(1);
@@ -143,7 +143,7 @@ async function seedNightDesk() {
   });
 
   state.seeded = true;
-  await fs.writeFile(stateFile, JSON.stringify(state, null, 2));
+  await writeFile(stateFile, JSON.stringify(state, null, 2));
   
   console.log("✅ Demo content seeded successfully!");
   console.log("- 3 Projects created with different statuses");

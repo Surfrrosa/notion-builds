@@ -10,6 +10,6 @@ export function requireEnv(name: string): string {
 }
 
 export function parent() {
-  const PARENT_PAGE_ID = requireEnv('PARENT_PAGE_ID');
+  const PARENT_PAGE_ID = requireEnv('PARENT_PAGE_ID').trim().replace(/^["']|["']$/g, '');
   return { type: "page_id", page_id: PARENT_PAGE_ID } as const;
 }

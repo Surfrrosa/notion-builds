@@ -1,0 +1,42 @@
+name: Night Desk Template CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Build Night Desk template
+      run: npm run build:night-desk
+      env:
+        NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        PARENT_PAGE_ID: ${{ secrets.PARENT_PAGE_ID }}
+        
+    - name: Seed Night Desk demo data
+      run: npm run seed:night-desk
+      env:
+        NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        PARENT_PAGE_ID: ${{ secrets.PARENT_PAGE_ID }}
+        
+    - name: Validate Night Desk template
+      run: npm run validate:night-desk
+      env:
+        NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        PARENT_PAGE_ID: ${{ secrets.PARENT_PAGE_ID }}
