@@ -1,5 +1,5 @@
 import { notion } from "../../packages/core/notion.js";
-import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, richTextProp, checkboxProp, filesProp, urlProp, emailProp, multiSelectProp, createdTimeProp, relationProp, rollupProp, formulaProp } from "../../packages/core/schema.js";
+import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, richTextProp, checkboxProp, filesProp, urlProp, emailProp, multiSelectProp, createdTimeProp, relationProp, rollupProp, formulaProp, ensureDualRelation } from "../../packages/core/schema.js";
 import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
@@ -207,7 +207,7 @@ async function main() {
     icon: { emoji: "✅" },
     properties: {
       "Name": titleProp,
-      "Project": relationProp(projectsDb.id, "Tasks"),
+      "Project": relationProp(projectsDb.id),
       "Status": selectProp(["Now","Next","Scheduled","Waiting","Done"].map(n=>({name:n}))),
       "Priority": selectProp(["Low","Med","High"].map(n=>({name:n}))),
       "Effort (hrs)": numberProp,
@@ -231,7 +231,7 @@ async function main() {
     icon: { emoji: "🗒️" },
     properties: {
       "Name": titleProp,
-      "Project": relationProp(projectsDb.id, "Notes"),
+      "Project": relationProp(projectsDb.id),
       "Type": selectProp(["Idea","Reference","Draft"].map(n=>({name:n}))),
       "Source URL": urlProp,
       "Excerpt": richTextProp,
@@ -250,7 +250,7 @@ async function main() {
       "Name": titleProp,
       "Files": filesProp,
       "Type": selectProp(["Image","Video","Audio","Doc","Thumb","B-roll"].map(n=>({name:n}))),
-      "Project": relationProp(projectsDb.id, "Assets"),
+      "Project": relationProp(projectsDb.id),
       "Source URL": urlProp,
       "Pinned": checkboxProp,
       "Added": createdTimeProp,
@@ -278,29 +278,37 @@ async function main() {
     }
   });
 
-  console.log("Updating Projects with relations and rollups...");
+  console.log("Setting up bidirectional relations...");
+  
+  const taskProjectRelation = await ensureDualRelation(notion, {
+    aDbId: tasksDb.id, aProp: "Project",
+    bDbId: projectsDb.id, bProp: "Tasks",
+  });
+  
+  const noteProjectRelation = await ensureDualRelation(notion, {
+    aDbId: notesDb.id, aProp: "Project", 
+    bDbId: projectsDb.id, bProp: "Notes",
+  });
+  
+  const assetProjectRelation = await ensureDualRelation(notion, {
+    aDbId: assetsDb.id, aProp: "Project",
+    bDbId: projectsDb.id, bProp: "Assets", 
+  });
+  
+  const peopleProjectRelation = await ensureDualRelation(notion, {
+    aDbId: peopleDb.id, aProp: "Projects",
+    bDbId: projectsDb.id, bProp: "People",
+  });
+  
+  const noteAssetRelation = await ensureDualRelation(notion, {
+    aDbId: notesDb.id, aProp: "Assets",
+    bDbId: assetsDb.id, bProp: "Notes",
+  });
+
   await notion.databases.update({
     database_id: projectsDb.id,
     properties: {
-      "Tasks": { type: "relation", relation: { data_source_id: tasksDb.id } } as any,
-      "Notes": { type: "relation", relation: { data_source_id: notesDb.id } } as any,
-      "Assets": { type: "relation", relation: { data_source_id: assetsDb.id } } as any,
-      "People": { type: "relation", relation: { data_source_id: peopleDb.id } } as any,
       "Progress %": { type: "rollup", rollup: { relation_property_name: "Tasks", rollup_property_name: "Status", function: "percent_checked" } } as any
-    }
-  });
-
-  await notion.databases.update({
-    database_id: notesDb.id,
-    properties: {
-      "Assets": { type: "relation", relation: { data_source_id: assetsDb.id } } as any
-    }
-  });
-
-  await notion.databases.update({
-    database_id: peopleDb.id,
-    properties: {
-      "Projects": { type: "relation", relation: { data_source_id: projectsDb.id } } as any
     }
   });
 

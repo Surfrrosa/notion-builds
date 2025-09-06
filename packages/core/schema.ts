@@ -43,16 +43,30 @@ export const urlProp = { type: "url" as const, url: {} };
 export const emailProp = { type: "email" as const, email: {} };
 export const multiSelectProp = (options: SelectOption[] = []) => ({ type: "multi_select" as const, multi_select: { options } });
 export const createdTimeProp = { type: "created_time" as const, created_time: {} };
-export const relationProp = (data_source_id: string, synced_property_name?: string) => ({ 
+export const relationSingle = (databaseId: string) => ({
   type: "relation" as const,
-  relation: { 
-    data_source_id,
-    ...(synced_property_name && { 
-      synced_property_name,
-      synced_property_id: synced_property_name
-    })
-  }
+  relation: { database_id: databaseId, type: "single_property", single_property: {} },
 });
+
+export const relationDualById = (databaseId: string, syncedId: string) => ({
+  type: "relation" as const,
+  relation: {
+    database_id: databaseId,
+    type: "dual_property",
+    dual_property: { synced_property_id: syncedId },
+  },
+});
+
+export const relationDualByName = (databaseId: string, name: string) => ({
+  type: "relation" as const,
+  relation: {
+    database_id: databaseId,
+    type: "dual_property",
+    dual_property: { synced_property_name: name },
+  },
+});
+
+export const relationProp = (databaseId: string) => relationSingle(databaseId);
 export const rollupProp = (relation_property: string, rollup_property: string, function_type: string) => ({
   type: "rollup" as const,
   rollup: { relation_property_name: relation_property, rollup_property_name: rollup_property, function: function_type }
@@ -61,3 +75,40 @@ export const formulaProp = (expression: string) => ({
   type: "formula" as const,
   formula: { expression } 
 });
+
+type DualOpts = {
+  aDbId: string; aProp: string;
+  bDbId: string; bProp: string;
+};
+
+export async function ensureDualRelation(notion: any, { aDbId, aProp, bDbId, bProp }: DualOpts) {
+  await notion.databases.update({
+    database_id: aDbId,
+    properties: { [aProp]: relationSingle(bDbId) },
+  });
+  const aDb = await notion.databases.retrieve({ database_id: aDbId });
+  const aPropId = (aDb as any).properties[aProp].id;
+
+  await notion.databases.update({
+    database_id: bDbId,
+    properties: { [bProp]: relationSingle(aDbId) },
+  });
+  const bDb = await notion.databases.retrieve({ database_id: bDbId });
+  const bPropId = (bDb as any).properties[bProp].id;
+
+  try {
+    await notion.databases.update({
+      database_id: aDbId,
+      properties: { [aProp]: relationDualById(bDbId, bPropId) },
+    });
+    await notion.databases.update({
+      database_id: bDbId,
+      properties: { [bProp]: relationDualById(aDbId, aPropId) },
+    });
+    console.log(`✅ Dual relation created: ${aProp} ↔ ${bProp}`);
+    return { type: 'dual', aPropId, bPropId };
+  } catch (e) {
+    console.warn(`⚠️ Dual relation unsupported in this workspace. Using single_property only for ${aProp} ↔ ${bProp}`, (e as any)?.body || e);
+    return { type: 'single', aPropId, bPropId };
+  }
+}
