@@ -65,9 +65,17 @@ async function validateNightDesk(): Promise<ValidationResult> {
     }
   }
 
-  const requiredPages = ["Home — Today", "Writing Scene", "Editing Scene", "Admin Scene", "Review"];
+  const requiredPageProps = ["home", "writingScene", "editingScene", "adminScene", "reviewPage"];
+  const pageDisplayNames = ["Home — Today", "Writing Scene", "Editing Scene", "Admin Scene", "Review"];
+  
   if (state.pages) {
-    const missingPages = requiredPages.filter(pageName => !state.pages[pageName]);
+    const missingPages: string[] = [];
+    requiredPageProps.forEach((prop, index) => {
+      if (!state.pages[prop]) {
+        missingPages.push(pageDisplayNames[index]);
+      }
+    });
+    
     if (missingPages.length > 0) {
       result.errors.push(`❌ Missing scaffold pages: ${missingPages.join(", ")}`);
       result.success = false;
@@ -87,12 +95,12 @@ async function validateNightDesk(): Promise<ValidationResult> {
 
 function getRequiredProperties(dbName: string): string[] {
   const propertyMap: Record<string, string[]> = {
-    "Inbox": ["Name", "Type", "File", "URL", "Next Tiny Step", "Project", "People", "Resurface On", "Pinned", "Created"],
-    "Tasks": ["Name", "Project", "Status", "Priority", "Effort (hrs)", "Due", "Scene", "If", "Then", "At", "Implementation Intent", "Timebox (min)", "Resurface On", "Pinned", "Completed On"],
-    "Projects": ["Name", "Goal", "Status", "Due", "Scene Default", "Tasks", "Notes", "Assets", "People", "Progress %", "Next Review", "Pinned"],
-    "Notes": ["Name", "Project", "Type", "Source URL", "Excerpt", "Resurface On", "Tags", "Assets", "Created"],
-    "Assets": ["Name", "Files", "Type", "Project", "Source URL", "Pinned", "Added", "Tags"],
-    "People": ["Name", "Role", "Email", "Notes", "Projects"]
+    "Inbox": ["Name", "Type", "File", "URL", "Next Tiny Step", "Project", "People", "Resurface On", "Pinned", "Created", "Demo"],
+    "Tasks": ["Name", "Project", "Status", "Priority", "Effort (hrs)", "Due", "Scene", "If", "Then", "At", "Implementation Intent", "Timebox (min)", "Resurface On", "Pinned", "Completed On", "Demo"],
+    "Projects": ["Name", "Goal", "Status", "Due", "Scene Default", "Tasks", "Notes", "Assets", "People", "Progress %", "Next Review", "Pinned", "Demo"],
+    "Notes": ["Name", "Project", "Type", "Source URL", "Excerpt", "Resurface On", "Tags", "Assets", "Created", "Demo"],
+    "Assets": ["Name", "Files", "Type", "Project", "Source URL", "Pinned", "Added", "Tags", "Demo"],
+    "People": ["Name", "Role", "Email", "Notes", "Projects", "Demo"]
   };
   return propertyMap[dbName] || [];
 }
