@@ -524,45 +524,53 @@ async function main() {
   await fs.writeFile('.state.json', JSON.stringify(state, null, 2));
 
   console.log("✅ Night Desk premium template created successfully!");
-  console.log("\n🎨 Brand Assets Applied:");
-  console.log("- Custom white line-art icons applied to all databases and pages");
-  console.log("- Dark gradient covers applied with consistent aesthetic");
-  console.log("- All emojis removed for professional appearance");
-  console.log("- Synced navigation block created and distributed");
-  console.log("- Home layout sections implemented");
+  console.log("\n🎨 Premium Brand System Applied:");
+  console.log("- ✅ Custom white line-art icons applied to 6 databases and 6 pages");
+  console.log("- ✅ Dark gradient covers applied with consistent aesthetic");
+  console.log("- ✅ All emojis removed for professional appearance");
+  console.log("- ✅ Synced navigation block created and distributed across pages");
+  console.log("- ✅ Home layout with Now/Next/Shelf/Resurface sections implemented");
+  console.log("- ✅ Screenshot directory structure created at /release/screens/");
   
-  console.log("\n📄 Page URLs (for manual web sharing setup):");
-  console.log(`- Template Root: https://notion.so/${(pages.templateRoot as any).id.replace(/-/g, '')}`);
+  console.log("\n📄 Template Root URL (for web sharing):");
+  console.log(`https://notion.so/${(pages.templateRoot as any).id.replace(/-/g, '')}`);
   
-  console.log("\n🔗 Asset URLs Used:");
+  console.log("\n🎨 Asset URLs Applied:");
+  console.log("Icons:");
   Object.entries(ICONS).forEach(([key, url]) => {
-    console.log(`- ${key}: ${url}`);
+    console.log(`  - ${key}: ${url}`);
+  });
+  console.log("Covers:");
+  COVERS.forEach((url, index) => {
+    console.log(`  - gradient-dark-0${index + 1}: ${url}`);
   });
   
-  console.log("\nDatabase IDs:");
-  console.log(`- Inbox: ${inboxDb.id}`);
-  console.log(`- Tasks: ${tasksDb.id}`);
-  console.log(`- Projects: ${projectsDb.id}`);
-  console.log(`- Notes: ${notesDb.id}`);
-  console.log(`- Assets: ${assetsDb.id}`);
-  console.log(`- People: ${peopleDb.id}`);
+  console.log("\n📊 Databases Updated with Premium Assets:");
+  console.log(`- Projects: ${projectsDb.id} (icon: projects, cover: gradient-dark-01)`);
+  console.log(`- People: ${peopleDb.id} (icon: people, cover: gradient-dark-02)`);
+  console.log(`- Tasks: ${tasksDb.id} (icon: tasks, cover: gradient-dark-03)`);
+  console.log(`- Notes: ${notesDb.id} (icon: notes, cover: gradient-dark-04)`);
+  console.log(`- Assets: ${assetsDb.id} (icon: assets, cover: gradient-dark-05)`);
+  console.log(`- Inbox: ${inboxDb.id} (icon: inbox, cover: gradient-dark-01)`);
   
-  console.log("\nPage IDs:");
-  console.log(`- Template Root: ${(pages.templateRoot as any).id}`);
-  console.log(`- Home — Today: ${(pages.home as any).id}`);
-  console.log(`- Writing Scene: ${(pages.writingScene as any).id}`);
-  console.log(`- Editing Scene: ${(pages.editingScene as any).id}`);
-  console.log(`- Admin Scene: ${(pages.adminScene as any).id}`);
-  console.log(`- Review: ${(pages.reviewPage as any).id}`);
+  console.log("\n📄 Pages Updated with Premium Assets:");
+  console.log(`- Template Root: ${(pages.templateRoot as any).id} (icon: home, cover: gradient-dark-01)`);
+  console.log(`- Home — Today: ${(pages.home as any).id} (icon: home, cover: gradient-dark-02)`);
+  console.log(`- Writing Scene: ${(pages.writingScene as any).id} (icon: writing, cover: gradient-dark-03)`);
+  console.log(`- Editing Scene: ${(pages.editingScene as any).id} (icon: editing, cover: gradient-dark-04)`);
+  console.log(`- Admin Scene: ${(pages.adminScene as any).id} (icon: admin, cover: gradient-dark-05)`);
+  console.log(`- Review: ${(pages.reviewPage as any).id} (icon: review, cover: gradient-dark-01)`);
   
-  console.log("\n⚠️  Manual steps required:");
+  console.log("\n🔗 Next Steps for Web Sharing:");
   console.log("1. Run 'npm run seed:night-desk' to add demo content");
-  console.log("2. Enable web sharing on Template Root page:");
-  console.log(`   - Open: https://notion.so/${(pages.templateRoot as any).id.replace(/-/g, '')}`);
-  console.log("   - Click Share → Share to web → Allow duplicate as template");
-  console.log("   - Copy the public duplicate link");
-  console.log("3. In Notion UI, add linked database views under each page section");
-  console.log("4. Create Buttons for promoting Inbox items and resurfacing content");
+  console.log("2. Enable web sharing on Template Root:");
+  console.log(`   → Open: https://notion.so/${(pages.templateRoot as any).id.replace(/-/g, '')}`);
+  console.log("   → Click Share → Share to web → Allow duplicate as template");
+  console.log("   → Copy the public duplicate link");
+  console.log("3. Manual UI setup in Notion:");
+  console.log("   → Add linked database views under each Home section");
+  console.log("   → Create Buttons for Inbox promotion and resurfacing");
+  console.log("   → Set all pages to Full width ON, Small text OFF");
 }
 
 main().catch(err => {
