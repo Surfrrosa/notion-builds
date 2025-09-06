@@ -1,0 +1,19 @@
+{
+  "databases": {
+    "Inbox": "2669323f-983b-81b1-bfec-c4ddb7d9cd0a",
+    "Tasks": "2669323f-983b-81b3-85f8-edc7e50066b3",
+    "Projects": "2669323f-983b-8183-b87a-f29ef67dd6b4",
+    "Notes": "2669323f-983b-81b8-bdad-c408ac8d83cd",
+    "Assets": "2669323f-983b-814c-af95-f871c6150ce3",
+    "People": "2669323f-983b-81f1-8c63-deacb60a706e"
+  },
+  "pages": {
+    "templateRoot": "2669323f-983b-8197-b2e0-f84d1b499896",
+    "home": "2669323f-983b-8197-b2e0-f84d1b499896",
+    "writingScene": "2669323f-983b-81a7-b94c-f62dcbc01530",
+    "editingScene": "2669323f-983b-81a7-b94c-f62dcbc01530",
+    "adminScene": "2669323f-983b-81a7-b94c-f62dcbc01530",
+    "reviewPage": "2669323f-983b-81aa-baed-f8de950eb1a7"
+  },
+  "lastDeduped": "2025-09-06T22:22:41.030Z"
+}

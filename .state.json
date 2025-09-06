@@ -1,0 +1,338 @@
+{
+  "databases": {
+    "Projects": "2669323f-983b-8183-b87a-f29ef67dd6b4",
+    "People": "2669323f-983b-81f1-8c63-deacb60a706e",
+    "Tasks": "2669323f-983b-81b3-85f8-edc7e50066b3",
+    "Notes": "2669323f-983b-81b8-bdad-c408ac8d83cd",
+    "Assets": "2669323f-983b-814c-af95-f871c6150ce3",
+    "Inbox": "2669323f-983b-81b1-bfec-c4ddb7d9cd0a"
+  },
+  "pages": {
+    "templateRoot": {
+      "object": "page",
+      "id": "2669323f-983b-812c-829f-eac7c4a57da8",
+      "created_time": "2025-09-06T22:23:00.000Z",
+      "last_edited_time": "2025-09-06T22:23:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "cover": null,
+      "icon": {
+        "type": "external",
+        "external": {
+          "url": "https://www.notion.so/icons/template_gray.svg"
+        }
+      },
+      "parent": {
+        "type": "page_id",
+        "page_id": "2669323f-983b-8085-aae5-c98a3baf3b10"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "title": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Night Desk — Template Root",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Night Desk — Template Root",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Night-Desk-Template-Root-2669323f983b812c829feac7c4a57da8",
+      "public_url": null,
+      "request_id": "f50e99c5-c887-4ffd-8f48-858e4d52d168"
+    },
+    "home": {
+      "object": "page",
+      "id": "2669323f-983b-8107-ae9c-e2b49b095f6d",
+      "created_time": "2025-09-06T22:23:00.000Z",
+      "last_edited_time": "2025-09-06T22:23:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "cover": null,
+      "icon": {
+        "type": "emoji",
+        "emoji": "🌚"
+      },
+      "parent": {
+        "type": "page_id",
+        "page_id": "2669323f-983b-8085-aae5-c98a3baf3b10"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "title": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Home — Today",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Home — Today",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Home-Today-2669323f983b8107ae9ce2b49b095f6d",
+      "public_url": null,
+      "request_id": "f589e23c-2d6d-4147-9b3a-843952fa00c5"
+    },
+    "writingScene": {
+      "object": "page",
+      "id": "2669323f-983b-81da-a5bd-ecd3df173dc6",
+      "created_time": "2025-09-06T22:23:00.000Z",
+      "last_edited_time": "2025-09-06T22:23:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "cover": null,
+      "icon": {
+        "type": "emoji",
+        "emoji": "✍️"
+      },
+      "parent": {
+        "type": "page_id",
+        "page_id": "2669323f-983b-8085-aae5-c98a3baf3b10"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "title": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Writing Scene",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Writing Scene",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Writing-Scene-2669323f983b81daa5bdecd3df173dc6",
+      "public_url": null,
+      "request_id": "74f30ca9-f627-482a-b2a1-eb1224cc2368"
+    },
+    "editingScene": {
+      "object": "page",
+      "id": "2669323f-983b-816e-b43f-f64f11f93f38",
+      "created_time": "2025-09-06T22:23:00.000Z",
+      "last_edited_time": "2025-09-06T22:23:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "cover": null,
+      "icon": {
+        "type": "emoji",
+        "emoji": "🎬"
+      },
+      "parent": {
+        "type": "page_id",
+        "page_id": "2669323f-983b-8085-aae5-c98a3baf3b10"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "title": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Editing Scene",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Editing Scene",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Editing-Scene-2669323f983b816eb43ff64f11f93f38",
+      "public_url": null,
+      "request_id": "96ec3d32-6f1e-4fcc-9a03-e193eaa152cb"
+    },
+    "adminScene": {
+      "object": "page",
+      "id": "2669323f-983b-81b7-af3a-dfba4ee73afa",
+      "created_time": "2025-09-06T22:24:00.000Z",
+      "last_edited_time": "2025-09-06T22:24:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "cover": null,
+      "icon": {
+        "type": "emoji",
+        "emoji": "⚙️"
+      },
+      "parent": {
+        "type": "page_id",
+        "page_id": "2669323f-983b-8085-aae5-c98a3baf3b10"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "title": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Admin Scene",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Admin Scene",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Admin-Scene-2669323f983b81b7af3adfba4ee73afa",
+      "public_url": null,
+      "request_id": "8263b98e-642b-4fc2-9f4a-1deb0ef677cc"
+    },
+    "reviewPage": {
+      "object": "page",
+      "id": "2669323f-983b-8184-b00f-da9699d74c48",
+      "created_time": "2025-09-06T22:24:00.000Z",
+      "last_edited_time": "2025-09-06T22:24:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "0dd130ce-410c-4003-96ef-e3ac2e2974aa"
+      },
+      "cover": null,
+      "icon": {
+        "type": "emoji",
+        "emoji": "🔄"
+      },
+      "parent": {
+        "type": "page_id",
+        "page_id": "2669323f-983b-8085-aae5-c98a3baf3b10"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "title": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Review",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Review",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Review-2669323f983b8184b00fda9699d74c48",
+      "public_url": null,
+      "request_id": "8c60d22d-5eec-42e5-bbe2-984847b812f3"
+    },
+    "created": true
+  },
+  "webSharing": {
+    "templateRootId": "2669323f-983b-812c-829f-eac7c4a57da8",
+    "publicUrl": "TO_BE_UPDATED_MANUALLY"
+  },
+  "seeded": true
+}
