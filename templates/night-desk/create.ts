@@ -3,7 +3,7 @@ import { createOrUpdateDatabase, titleProp, selectProp, numberProp, dateProp, ri
 import manifest from "./manifest.json" with { type: "json" };
 import fs from 'fs/promises';
 
-async function createScaffoldPages() {
+async function createScaffoldPages(parentPageId: string) {
   const stateFile = '.state.json';
   let state: any = {};
   try {
@@ -16,7 +16,7 @@ async function createScaffoldPages() {
   }
 
   const home = await notion.pages.create({
-    parent: { type: "page_id", page_id: process.env.PARENT_PAGE_ID! },
+    parent: { type: "page_id", page_id: parentPageId },
     icon: { type: "emoji", emoji: "🌚" },
     properties: { title: [{ type: "text", text: { content: "Home — Today" } }] }
   });
@@ -36,7 +36,7 @@ async function createScaffoldPages() {
   });
 
   const writingScene = await notion.pages.create({
-    parent: { type: "page_id", page_id: process.env.PARENT_PAGE_ID! },
+    parent: { type: "page_id", page_id: parentPageId },
     icon: { type: "emoji", emoji: "✍️" },
     properties: { title: [{ type: "text", text: { content: "Writing Scene" } }] }
   });
@@ -55,7 +55,7 @@ async function createScaffoldPages() {
   });
 
   const editingScene = await notion.pages.create({
-    parent: { type: "page_id", page_id: process.env.PARENT_PAGE_ID! },
+    parent: { type: "page_id", page_id: parentPageId },
     icon: { type: "emoji", emoji: "🎬" },
     properties: { title: [{ type: "text", text: { content: "Editing Scene" } }] }
   });
@@ -72,7 +72,7 @@ async function createScaffoldPages() {
   });
 
   const adminScene = await notion.pages.create({
-    parent: { type: "page_id", page_id: process.env.PARENT_PAGE_ID! },
+    parent: { type: "page_id", page_id: parentPageId },
     icon: { type: "emoji", emoji: "⚙️" },
     properties: { title: [{ type: "text", text: { content: "Admin Scene" } }] }
   });
@@ -89,7 +89,7 @@ async function createScaffoldPages() {
   });
 
   const reviewPage = await notion.pages.create({
-    parent: { type: "page_id", page_id: process.env.PARENT_PAGE_ID! },
+    parent: { type: "page_id", page_id: parentPageId },
     icon: { type: "emoji", emoji: "🔄" },
     properties: { title: [{ type: "text", text: { content: "Review" } }] }
   });
@@ -111,9 +111,19 @@ async function createScaffoldPages() {
   return pages;
 }
 
+function validateUUID(uuid: string): boolean {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
+}
+
 async function main() {
   if (!process.env.NOTION_TOKEN || !process.env.PARENT_PAGE_ID) {
     throw new Error("Set NOTION_TOKEN and PARENT_PAGE_ID in .env");
+  }
+
+  const parentPageId = process.env.PARENT_PAGE_ID.trim();
+  if (!validateUUID(parentPageId)) {
+    throw new Error(`PARENT_PAGE_ID must be a valid UUID format (e.g., "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"), got: "${parentPageId}"`);
   }
 
   console.log("Creating databases...");
@@ -242,7 +252,7 @@ async function main() {
   });
 
   console.log("Creating scaffold pages...");
-  const pages = await createScaffoldPages();
+  const pages = await createScaffoldPages(parentPageId);
 
   console.log("✅ Night Desk template created successfully!");
   console.log("\nDatabase IDs:");
