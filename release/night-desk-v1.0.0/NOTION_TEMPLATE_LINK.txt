@@ -1,0 +1,33 @@
+# Night Desk Template Link
+
+To duplicate this template in your Notion workspace:
+
+[NOTION_DUPLICATE_LINK_PLACEHOLDER]
+
+Note: Replace this placeholder with the actual Notion duplicate link once the template is deployed.
+
+## How to Get Your Duplicate Link
+
+1. Deploy the Night Desk template to your Notion workspace using:
+   ```bash
+   npm run build:night-desk
+   npm run seed:night-desk
+   ```
+
+2. In Notion, navigate to the parent page containing all the databases and scaffold pages
+
+3. Click the "Share" button in the top-right corner
+
+4. Click "Publish to web" or "Share to web"
+
+5. Enable "Allow duplicate as template"
+
+6. Copy the public duplicate link and replace the placeholder above
+
+## Template Structure
+
+Once deployed, your Night Desk template will include:
+- 6 interconnected databases (Inbox, Tasks, Projects, Notes, Assets, People)
+- 5 scaffold pages (Home — Today, Writing Scene, Editing Scene, Admin Scene, Review)
+- Demo seed data with linked relations
+- Dark styling with consistent icons and covers
