@@ -33,7 +33,7 @@ async function main() {
     icon: { emoji: "📥" },
     properties: {
       "Name": titleProp,
-      "Type": selectProp([{"Idea"},{"Task"},{"Note"},{"Asset"},{"Link"}].map(n=>({name:n}))),
+      "Type": selectProp(["Idea","Task","Note","Asset","Link"].map(n=>({name:n}))),
       "File": filesProp,
       "URL": urlProp,
       "Next Tiny Step": richTextProp,
@@ -48,11 +48,11 @@ async function main() {
     icon: { emoji: "✅" },
     properties: {
       "Name": titleProp,
-      "Status": selectProp([{"Now"},{"Next"},{"Scheduled"},{"Waiting"},{"Done"}].map(n=>({name:n}))),
-      "Priority": selectProp([{"Low"},{"Med"},{"High"}].map(n=>({name:n}))),
+      "Status": selectProp(["Now","Next","Scheduled","Waiting","Done"].map(n=>({name:n}))),
+      "Priority": selectProp(["Low","Med","High"].map(n=>({name:n}))),
       "Effort (hrs)": numberProp,
       "Due": dateProp,
-      "Scene": selectProp([{"Writing"},{"Editing"},{"Admin"},{"Deep Work"}].map(n=>({name:n}))),
+      "Scene": selectProp(["Writing","Editing","Admin","Deep Work"].map(n=>({name:n}))),
       "If": richTextProp,
       "Then": richTextProp,
       "At": richTextProp,
@@ -69,7 +69,7 @@ async function main() {
     icon: { emoji: "📁" },
     properties: {
       "Name": titleProp,
-      "Status": selectProp([{"Active"},{"On Hold"},{"Someday"},{"Done"}].map(n=>({name:n}))),
+      "Status": selectProp(["Active","On Hold","Someday","Done"].map(n=>({name:n}))),
       "Due": dateProp,
       "Pinned": checkboxProp
     }
@@ -81,7 +81,7 @@ async function main() {
     icon: { emoji: "🗒️" },
     properties: {
       "Name": titleProp,
-      "Type": selectProp([{"Idea"},{"Reference"},{"Draft"}].map(n=>({name:n}))),
+      "Type": selectProp(["Idea","Reference","Draft"].map(n=>({name:n}))),
       "Source URL": urlProp,
       "Excerpt": richTextProp,
       "Resurface On": dateProp
@@ -95,7 +95,7 @@ async function main() {
     properties: {
       "Name": titleProp,
       "Files": filesProp,
-      "Type": selectProp([{"Image"},{"Video"},{"Audio"},{"Doc"},{"Thumb"},{"B-roll"}].map(n=>({name:n}))),
+      "Type": selectProp(["Image","Video","Audio","Doc","Thumb","B-roll"].map(n=>({name:n}))),
       "Source URL": urlProp,
       "Pinned": checkboxProp
     }
@@ -107,7 +107,7 @@ async function main() {
     icon: { emoji: "👥" },
     properties: {
       "Name": titleProp,
-      "Role": selectProp([{"Collaborator"},{"Client"},{"Body-Double"},{"Friend"}].map(n=>({name:n}))),
+      "Role": selectProp(["Collaborator","Client","Body-Double","Friend"].map(n=>({name:n}))),
       "Contact": urlProp // can swap to email text if preferred
     }
   });
